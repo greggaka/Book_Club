@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Club - Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link rel = "stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container d-flex justify-content-between header py-2">
+        <h1 class="row align-items-center px-2">Book Club</h1>
+        <div >
+            <h4 class="text-center">{{session['user_name']}}</h4>
+            <form action="/logout">
+                <button class="btn btn-light border border-dark">Logout</button>
+            </form>
+        </div>
+    </div>
+    <div class="container d-flex justify-content-center mt-4 mb-3">
+        <p class="text-center"><em>"The more you read, the more things you will know. The more that you learn, the more places you'll go."</em><br/> -Dr. Seuss, I Can Read with My Eyes Shut!</p>
+    </div>
+    <div class="container text-center d-flex justify-content-between menu py-3 mb-0">
+        <div>
+            <a href="/books/new" class="btn btn-primary border border-dark">+Add a book</a>
+            <a href="/books/search" class="btn btn-light border border-dark">Search for a new book</a>
+        </div>
+        <div >
+            <h4 class="me-5 pe-5">Books People in the Community Have Read</h4>
+        </div>
+        <div class="ms-5 ps-5">
+            <a href="/user/books" class="btn btn-light border border-dark">My reading log</a>
+        </div>
+    </div>
+    <table class="container table table-hover border border-dark align-middle" style="width: 100%">
+        <colgroup>
+            <col span="1" style="width: 13%;">
+            <col span="1" style="width: auto;">
+            <col span="1" style="width: 10%;">
+            <col span="1" style="width: 30%;">
+            <col span="1" style="width: 10%;">
+            <col span="1" style="width: 13%;">
+        </colgroup>
+        <thead class="t-head text-center">
+            <tr>
+                <th scope="col">Date Added</th>
+                <th scope="col">Book Title</th>
+                <th scope="col">Author</th>
+                <th scope="col">Thoughts/Review</th>
+                <th scope="col">Contributor</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
+            {% for book in books %}
+            <tr>
+                <td><a href="/books/{{book.id}}" class="text-decoration-none text-black">{{book.created_at}}</a></td>
+                <td class="text-center"><a href="/books/{{book.id}}" class="text-decoration-none text-black"><strong>{{book.title}}</strong></a></td>
+                <td class="text-center"><a href="/books/{{book.id}}" class="text-decoration-none text-black">{{book.author}}</a></td>
+                <td><a href="/books/{{book.id}}" class="text-decoration-none text-black">{{book.reader_review}}</a></td>
+                <td class="text-center">{{book.user.first_name}} {{book.user.last_name}}</td>
+                <td class="text-center">
+                    {% if book.user.id == session['id'] %} 
+                    <a href="/books/edit/{{book.id}}" class="btn btn-warning border border-dark">Edit</a> | <a href="/books/delete/{{book.id}}" class="btn btn-danger border border-dark">Delete</a>
+                    {% else %}
+                    <a href="/books/{{book.id}}" class="btn btn-success border border-dark">Comment</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
