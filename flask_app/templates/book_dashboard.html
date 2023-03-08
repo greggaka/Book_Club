@@ -64,7 +64,7 @@
                     {% if book.user.id == session['id'] %} 
                     <a href="/books/edit/{{book.id}}" class="btn btn-warning border border-dark">Edit</a> | <a href="/books/delete/{{book.id}}" class="btn btn-danger border border-dark">Delete</a>
                     {% else %}
-                    <a href="/books/{{book.id}}" class="btn btn-success border border-dark">Comment</a>
+                    <a href="/books/{{book.id}}" class="btn btn-success border border-dark">View</a>
                     {% endif %}
                 </td>
             </tr>
